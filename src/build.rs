@@ -246,7 +246,7 @@ pub async fn run_build(
         }
     };
 
-    let output = if output.finalized_dependencies.is_some() {
+    let mut output = if output.finalized_dependencies.is_some() {
         tracing::info!("Using finalized dependencies");
 
         // The output already has the finalized dependencies, so we can just use it as-is
@@ -311,12 +311,13 @@ pub async fn run_build(
         .cloned()
         .collect::<HashSet<_>>();
 
+    let package_format = output.build_configuration.package_format;
     let (result, paths_json) = package_conda(
-        &output,
+        &mut output,
         &difference,
         &directories.host_prefix,
         &directories.output_dir,
-        output.build_configuration.package_format,
+        package_format,
     )
     .into_diagnostic()?;
 

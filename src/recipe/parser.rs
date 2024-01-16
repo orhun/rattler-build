@@ -3,7 +3,6 @@
 //! This phase parses YAML and [`SelectorConfig`] into a [`Recipe`], where
 //! if-selectors are handled and any jinja string is processed, resulting in a rendered recipe.
 use minijinja::Value;
-use serde::ser::{SerializeStruct, Serializer};
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -47,48 +46,25 @@ pub use self::{
 use super::custom_yaml::Node;
 
 /// A recipe that has been parsed and validated.
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Recipe {
     /// The package information
     pub package: Package,
     /// The information about where to obtain the sources
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub source: Vec<Source>,
     /// The information about how to build the package
     pub build: Build,
     /// The information about the requirements
     pub requirements: Requirements,
     /// The information about how to test the package
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub tests: Vec<TestType>,
     /// The information about the package
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "About::is_default")]
     pub about: About,
     #[serde(skip_deserializing)]
-    pub system: Option<SystemInfo>,
-}
-
-impl Serialize for Recipe {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut state = serializer.serialize_struct("Recipe", 7)?;
-        state.serialize_field("package", &self.package)?;
-        if !self.source.is_empty() {
-            state.serialize_field("source", &self.source)?;
-        }
-        state.serialize_field("build", &self.build)?;
-        state.serialize_field("requirements", &self.requirements)?;
-        if !self.tests.is_empty() {
-            state.serialize_field("tests", &self.tests)?;
-        }
-        if !self.about.is_default() {
-            state.serialize_field("about", &self.about)?;
-        }
-        state.serialize_field("system", &SystemInfo::new())?;
-        state.end()
-    }
+    pub system: SystemInfo,
 }
 
 pub(crate) trait CollectErrors<K, V>: Iterator<Item = Result<K, V>> + Sized {
@@ -271,7 +247,7 @@ impl Recipe {
             requirements,
             tests,
             about,
-            system: None,
+            system: SystemInfo::default(),
         };
 
         Ok(recipe)

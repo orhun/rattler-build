@@ -8,6 +8,8 @@ use std::fs::File;
 use std::io::Read;
 use std::path::{Path, PathBuf};
 
+use crate::recipe::parser::SystemInfo;
+
 /// A linux shared object (ELF)
 pub struct SharedObject {
     /// Path to the shared object
@@ -80,6 +82,7 @@ impl SharedObject {
         prefix: &Path,
         encoded_prefix: &Path,
         rpath_allowlist: &[GlobMatcher],
+        system_info: &mut SystemInfo,
     ) -> Result<(), RelinkError> {
         if !self.has_dynamic {
             tracing::debug!("{} is not dynamically linked", self.path.display());
@@ -131,20 +134,21 @@ impl SharedObject {
         // keep only first unique item
         final_rpath = final_rpath.into_iter().unique().collect();
 
-        call_patchelf(&self.path, &final_rpath)?;
+        call_patchelf(&self.path, &final_rpath, system_info)?;
 
         Ok(())
     }
 }
 
-fn call_patchelf(elf_path: &Path, new_rpath: &[PathBuf]) -> Result<(), RelinkError> {
+fn call_patchelf(
+    elf_path: &Path,
+    new_rpath: &[PathBuf],
+    system_info: &mut SystemInfo,
+) -> Result<(), RelinkError> {
     let new_rpath = new_rpath.iter().map(|p| p.to_string_lossy()).join(":");
 
     tracing::info!("patchelf for {:?}: {:?}", elf_path, new_rpath);
-
-    let patchelf_exe = which::which("patchelf")?;
-
-    let mut cmd = std::process::Command::new(patchelf_exe);
+    let mut cmd = system_info.call_tool("patchelf", "--help")?;
 
     // prefer using RPATH over RUNPATH because RPATH takes precedence when
     // searching for shared libraries and cannot be overriden with

@@ -857,7 +857,7 @@ fn write_recipe_folder(
 ///
 /// The `local_channel_dir` is the path to the local channel / output directory.
 pub fn package_conda(
-    output: &Output,
+    output: &mut Output,
     new_files: &HashSet<PathBuf>,
     prefix: &Path,
     local_channel_dir: &Path,
@@ -949,6 +949,7 @@ pub fn package_conda(
             prefix,
             &output.build_configuration.target_platform,
             &rpath_allowlist,
+            &mut output.recipe.system,
         )?;
     }
 
