@@ -8,13 +8,9 @@
       
       
       
-        <link rel="canonical" href="https://prefix-dev.github.io/rattler-build/dev/automatic_linting/">
+        <link rel="canonical" href="https://prefix-dev.github.io/rattler-build/dev/tui/">
       
       
-        <link rel="prev" href="../authentication_and_upload/">
-      
-      
-        <link rel="next" href="../testing/">
       
       
       <link rel="icon" href="../assets/favicon.png">
@@ -22,7 +18,7 @@
     
     
       
-        <title>Automatic recipe linting - rattler-build</title>
+        <title>Terminal User Interface - rattler-build</title>
       
     
     
@@ -59,11 +55,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="Automatic recipe linting - rattler-build" >
+        <meta  property="og:title"  content="Terminal User Interface - rattler-build" >
       
         <meta  property="og:description"  content="None" >
       
-        <meta  property="og:image"  content="https://prefix-dev.github.io/rattler-build/dev/assets/images/social/automatic_linting.png" >
+        <meta  property="og:image"  content="https://prefix-dev.github.io/rattler-build/dev/assets/images/social/tui.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -71,15 +67,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://prefix-dev.github.io/rattler-build/dev/automatic_linting/" >
+        <meta  property="og:url"  content="https://prefix-dev.github.io/rattler-build/dev/tui/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="Automatic recipe linting - rattler-build" >
+        <meta  name="twitter:title"  content="Terminal User Interface - rattler-build" >
       
         <meta  name="twitter:description"  content="None" >
       
-        <meta  name="twitter:image"  content="https://prefix-dev.github.io/rattler-build/dev/assets/images/social/automatic_linting.png" >
+        <meta  name="twitter:image"  content="https://prefix-dev.github.io/rattler-build/dev/assets/images/social/tui.png" >
       
     
     
@@ -102,7 +98,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#automatic-linting-in-vscode" class="md-skip">
+        <a href="#terminal-user-interface" class="md-skip">
           Skip to content
         </a>
       
@@ -141,7 +137,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Automatic recipe linting
+              Terminal User Interface
             
           </span>
         </div>
@@ -640,19 +636,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../automatic_linting/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -661,7 +648,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -799,7 +785,7 @@
                   
 
   
-    <a href="https://github.com/prefix-dev/rattler-build/edit/main/docs/automatic_linting.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/prefix-dev/rattler-build/edit/main/docs/tui.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
     </a>
@@ -807,17 +793,51 @@
   
 
 
-<h1 id="automatic-linting-in-vscode">Automatic linting in VSCode<a class="headerlink" href="#automatic-linting-in-vscode" title="Permanent link">#</a></h1>
-<p>The new recipe format comes with a strict JSON scheme. You can find the scheme
-<a href="https://github.com/prefix-dev/recipe-format">in this repository</a>.</p>
-<p>It is implemented with <code>pydantic</code> and renders to a JSON schema file. The <a href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml">YAML
-language server extension in
-VSCode</a>
-can recognize the scheme and give helpful hints during editing.</p>
-<p>With the YAML language server installed, the automatic linting can be enabled by
-adding the following line to the top of the recipe file:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json</span>
+<h1 id="terminal-user-interface">Terminal User Interface<a class="headerlink" href="#terminal-user-interface" title="Permanent link">#</a></h1>
+<p><code>rattler-build</code> offers a terminal user interface for building multiple packages and viewing the logs.</p>
+<p><img alt="rattler-build-tui" src="https://github.com/prefix-dev/rattler-build/assets/24392180/52138fd0-3c53-4028-a2c8-3099222c368a" /></p>
+<p>To launch the TUI, run the <code>build</code> command with the <code>--tui</code> flag as shown below:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>rattler-build<span class="w"> </span>build<span class="w"> </span>-r<span class="w"> </span>recipe.yml<span class="w"> </span>--tui
 </span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p><code>rattler-build-tui</code> is gated behind the <code>tui</code> feature flag to avoid extra dependencies. Build the project with <code>--features tui</code> arguments to enable the TUI functionality.</p>
+<h4 id="key-bindings">Key Bindings<a class="headerlink" href="#key-bindings" title="Permanent link">#</a></h4>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>Enter</kbd></td>
+<td>Build package</td>
+</tr>
+<tr>
+<td><kbd>j</kbd>/<kbd>k</kbd></td>
+<td>Next/previous package</td>
+</tr>
+<tr>
+<td><kbd>up</kbd>/<kbd>down</kbd>/<kbd>left</kbd>/<kbd>right</kbd></td>
+<td>Scroll logs</td>
+</tr>
+<tr>
+<td><kbd>e</kbd></td>
+<td>Edit recipe (via <code>$EDITOR</code>)</td>
+</tr>
+<tr>
+<td><kbd>c</kbd>, <kbd>:</kbd></td>
+<td>Open command prompt (available commands: <code>edit</code>)</td>
+</tr>
+<tr>
+<td><kbd>q</kbd>, <kbd>ctrl-c</kbd>, <kbd>esc</kbd>,</td>
+<td>Quit</td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -877,60 +897,6 @@ adding the following line to the top of the recipe file:</p>
 <footer class="md-footer">
     <!-- Link to previous and/or next page -->
     
-      
-        
-        <nav
-          class="md-footer__inner md-grid"
-          aria-label="Footer"
-          
-        >
-
-          <!-- Link to previous page -->
-          
-            
-            <a
-              href="../authentication_and_upload/"
-              class="md-footer__link md-footer__link--prev"
-              aria-label="Previous: Authentication &amp; upload"
-            >
-              <div class="md-footer__button md-icon">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-              </div>
-              <div class="md-footer__title">
-                <span class="md-footer__direction">
-                  Previous
-                </span>
-                <div class="md-ellipsis">
-                  Authentication & upload
-                </div>
-              </div>
-            </a>
-          
-
-          <!-- Link to next page -->
-          
-            
-            <a
-              href="../testing/"
-              class="md-footer__link md-footer__link--next"
-              aria-label="Next: Testing packages"
-            >
-              <div class="md-footer__title">
-                <span class="md-footer__direction">
-                  Next
-                </span>
-                <div class="md-ellipsis">
-                  Testing packages
-                </div>
-              </div>
-              <div class="md-footer__button md-icon">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-              </div>
-            </a>
-          
-        </nav>
       
     
 
